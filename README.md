@@ -10,4 +10,4 @@ git clone https://github.com/jsav0/vpnsw
 cd vpnsw
 doas make install
 ```
-![vpnsw demo](http://wfnintr.net/pastes/vpnsw.mkv)
+http://wfnintr.net/pastes/vpnsw.mkv

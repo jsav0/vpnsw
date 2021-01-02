@@ -1,0 +1,28 @@
+#!/usr/local/bin/bash 
+# n0
+# file:        vpnsw
+# description: vpnsw is short for "vpn switcher". 
+#              It prompts the user to select from the available wireguard
+#              configs on the system and connects to the peer accordingly.
+# depends:     wg, wg-quick, dmenu, bash
+# a110w
+
+# enable debugging for when executed with keybinding
+set -x
+exec > $HOME/.vpnsw.log 2>&1
+
+# iterate through wireguard configs stored on system
+for conf in /usr/local/etc/wireguard/*.conf; do
+	[ -e "$conf" ] || continue
+	vpns+=("$(basename $conf | awk -F\.conf '{print $1}')")
+done
+
+# take down existing tunnel if active
+# assumes only 1 tunnel is being used at a time right now
+active_tunnel=$(wg show | awk '/interface/{print $2}')
+[ -n "$active_tunnel" ] && {
+	wg-quick down "$active_tunnel"
+}
+
+# prompt the user to connect to a vpn tunnel and execute wg-quick up on the config
+wg-quick up $(echo ${vpns[*]} | tr ' ' '\n' | dmenu -b -nf '#ffffff' -nb '#000000' -sf '#000000' -sb '#ceaf51' -p "Select a Wireguard VPN: ")

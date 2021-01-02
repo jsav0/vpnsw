@@ -29,7 +29,7 @@ connect(){
 
 	disconnect
 	# prompt the user to connect to a vpn tunnel and execute wg-quick up on the config
-	wg-quick up $(echo ${vpns[*]} | tr ' ' '\n' | dmenu -b -nf '#ffffff' -nb '#000000' -sf '#000000' -sb '#ceaf51' -p "Select a Wireguard VPN: ")
+	wg-quick up $(echo ${vpns[*]} | tr ' ' '\n' | /usr/local/bin/dmenu -b -nf '#ffffff' -nb '#000000' -sf '#000000' -sb '#ceaf51' -p "Select a Wireguard VPN: ")
 }
 
 
